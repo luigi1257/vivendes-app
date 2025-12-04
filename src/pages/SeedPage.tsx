@@ -10,7 +10,7 @@ import {
 } from "../data/seedData";
 
 export function SeedPage() {
-  const [status, setStatus] = useState<null | string>(null);
+  const [status, setStatus] = useState<string | null>(null);
   const [running, setRunning] = useState(false);
 
   async function handleSeed() {
@@ -74,7 +74,7 @@ export function SeedPage() {
       }
 
       setStatus(
-        "Dades carregades correctament! 👍\nAra ja pots tancar aquesta pàgina."
+        "Dades carregades correctament! 👍\nAra ja pots tancar aquesta pàgina o eliminar la ruta /seed."
       );
     } catch (error: any) {
       console.error("Error fent seed:", error);
@@ -87,9 +87,10 @@ export function SeedPage() {
   return (
     <div className="p-4 pt-6 space-y-4 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-2">Seed Firestore</h1>
+
       <p className="text-sm text-gray-600">
-        Aquesta pàgina omple la base de dades de Firestore amb dades
-        d&apos;exemple per a vivendes, sistemes, contactes i incidències.
+        Aquesta pàgina omple la base de dades de Firestore amb dades d&apos;exemple
+        per a vivendes, sistemes, contactes i incidències.
       </p>
 
       <div className="bg-yellow-100 border border-yellow-300 rounded-xl p-3 text-xs text-yellow-900">
@@ -97,7 +98,7 @@ export function SeedPage() {
         <ul className="list-disc list-inside mt-1 space-y-1">
           <li>Només per a desenvolupament.</li>
           <li>
-            Assegura&apos;t que les regles de Firestore permeten
+            Assegura&apos;t que les regles de Firestore permeten{" "}
             <code className="mx-1">write</code>.
           </li>
           <li>
@@ -117,12 +118,10 @@ export function SeedPage() {
       </button>
 
       {status && (
-        <div className="text-sm text-gray-700 whitespace-pre-line">{status}</div>
+        <div className="text-sm text-gray-700 whitespace-pre-line mt-2">
+          {status}
+        </div>
       )}
     </div>
   );
-export function SeedPage() {
-  // ...
 }
-
-

@@ -3,39 +3,47 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { runSeed } from "../seed";
-import { useState } from "react"; // si no el tens ja
-
 
 type House = {
   id: string;
   name: string;
   address: string;
   coverImageUrl?: string;
+  notes?: string;
 };
 
 export function HousesPage() {
   const [houses, setHouses] = useState<House[]>([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [seeding, setSeeding] = useState(false);
-
 
   useEffect(() => {
     async function fetchHouses() {
-      const snap = await getDocs(collection(db, "houses"));
-      const data: House[] = snap.docs.map((doc) => ({
-        id: doc.id,
-        ...(doc.data() as Omit<House, "id">),
-      }));
-      setHouses(data);
+      try {
+        const snap = await getDocs(collection(db, "houses"));
+        const data: House[] = snap.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<House, "id">),
+        }));
+        setHouses(data);
+      } catch (err: any) {
+        console.error("Error carregant vivendes:", err);
+        setError(err?.message ?? String(err));
+      } finally {
+        setLoading(false);
+      }
     }
+
     fetchHouses();
   }, []);
 
   const filtered = houses.filter((h) => {
     const term = search.toLowerCase();
     return (
-      h.name.toLowerCase().includes(term) ||
-      h.address.toLowerCase().includes(term)
+      h.name?.toLowerCase().includes(term) ||
+      h.address?.toLowerCase().includes(term)
     );
   });
 
@@ -53,32 +61,32 @@ export function HousesPage() {
           + Add
         </button>
       </div>
-      {/* Botó de seed (només per desenvolupament) */}
-<div className="mt-2">
-  <button
-    onClick={async () => {
-      if (seeding) return;
-      setSeeding(true);
-      try {
-        await runSeed();
-        alert("Dades de prova carregades a Firestore! ✅");
-      } catch (err) {
-        console.error(err);
-        alert("Error fent seed. Mira la consola.");
-      } finally {
-        setSeeding(false);
-      }
-    }}
-    className="text-[11px] px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300"
-    disabled={seeding}
-  >
-    {seeding ? "Carregant dades..." : "DEBUG: Seed Firestore"}
-  </button>
-</div>
 
+      {/* Botó de SEED (només per desenvolupament) */}
+      <div className="mt-1">
+        <button
+          onClick={async () => {
+            if (seeding) return;
+            setSeeding(true);
+            try {
+              await runSeed();
+              alert("Dades de prova carregades a Firestore! ✅");
+            } catch (err) {
+              console.error("Error fent seed:", err);
+              alert("Error fent seed, mira la consola.");
+            } finally {
+              setSeeding(false);
+            }
+          }}
+          className="text-[11px] px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300"
+          disabled={seeding}
+        >
+          {seeding ? "Carregant dades..." : "DEBUG: Seed Firestore"}
+        </button>
+      </div>
 
       {/* Cercador */}
-      <div>
+      <div className="mt-2">
         <input
           type="text"
           placeholder="Buscar"
@@ -88,42 +96,37 @@ export function HousesPage() {
         />
       </div>
 
-      {/* Grid de vivendes */}
-      <div className="grid grid-cols-2 gap-4">
-        {filtered.map((house) => (
-          <div
-            key={house.id}
-            className="bg-white rounded-2xl shadow-sm overflow-hidden"
-          >
-            {house.coverImageUrl && (
-              <div className="relative">
-                <img
-                  src={house.coverImageUrl}
-                  alt={house.name}
-                  className="w-full h-28 object-cover"
-                />
-                <div className="absolute top-1.5 right-1.5 bg-black/40 rounded-full px-2 py-0.5 text-white text-xs">
-                  ⋯
-                </div>
+      {/* Info d'error si n'hi ha */}
+      {error && (
+        <div className="text-xs text-red-600">
+          Error carregant vivendes: {error}
+        </div>
+      )}
+
+      {/* Llista de vivendes */}
+      {loading ? (
+        <div className="text-sm text-gray-500">Carregant vivendes…</div>
+      ) : filtered.length === 0 ? (
+        <div className="text-sm text-gray-500">
+          No s&apos;ha trobat cap vivenda.
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {filtered.map((house) => (
+            <div
+              key={house.id}
+              className="bg-white rounded-2xl shadow-sm p-3 text-left"
+            >
+              <div className="text-xs font-bold tracking-wide text-gray-700">
+                {house.name?.toUpperCase()}
               </div>
-            )}
-            <div className="p-2">
-              <div className="text-xs font-bold tracking-wide">
-                {house.name.toUpperCase()}
-              </div>
-              <div className="text-xs text-gray-600 leading-snug">
+              <div className="text-xs text-gray-500 leading-snug">
                 {house.address}
               </div>
             </div>
-          </div>
-        ))}
-
-        {filtered.length === 0 && (
-          <div className="col-span-2 text-center text-gray-500 text-sm">
-            No s&apos;ha trobat cap vivenda.
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

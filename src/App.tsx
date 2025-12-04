@@ -1,3 +1,4 @@
+// src/App.tsx
 import { Routes, Route } from "react-router-dom";
 import { BottomNav } from "./components/BottomNav";
 import { HousesPage } from "./pages/HousesPage";

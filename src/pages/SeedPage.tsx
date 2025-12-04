@@ -121,5 +121,8 @@ export function SeedPage() {
       )}
     </div>
   );
+export function SeedPage() {
+  // ...
 }
+
 

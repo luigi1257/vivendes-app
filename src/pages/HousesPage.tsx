@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import { runSeed } from "../seed";
+import { useState } from "react"; // si no el tens ja
+
 
 type House = {
   id: string;
@@ -13,6 +16,8 @@ type House = {
 export function HousesPage() {
   const [houses, setHouses] = useState<House[]>([]);
   const [search, setSearch] = useState("");
+  const [seeding, setSeeding] = useState(false);
+
 
   useEffect(() => {
     async function fetchHouses() {
@@ -48,6 +53,29 @@ export function HousesPage() {
           + Add
         </button>
       </div>
+      {/* Botó de seed (només per desenvolupament) */}
+<div className="mt-2">
+  <button
+    onClick={async () => {
+      if (seeding) return;
+      setSeeding(true);
+      try {
+        await runSeed();
+        alert("Dades de prova carregades a Firestore! ✅");
+      } catch (err) {
+        console.error(err);
+        alert("Error fent seed. Mira la consola.");
+      } finally {
+        setSeeding(false);
+      }
+    }}
+    className="text-[11px] px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300"
+    disabled={seeding}
+  >
+    {seeding ? "Carregant dades..." : "DEBUG: Seed Firestore"}
+  </button>
+</div>
+
 
       {/* Cercador */}
       <div>

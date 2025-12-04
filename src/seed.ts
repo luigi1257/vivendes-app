@@ -9,9 +9,6 @@ import {
 } from "./data/seedData";
 
 export async function runSeed() {
-  // Això es pot cridar des d'una pàgina per omplir Firestore
-  // Utilitza les dades definides a src/data/seedData.ts
-
   // Houses
   for (const house of seedHouses) {
     await setDoc(doc(db, "houses", house.id), {

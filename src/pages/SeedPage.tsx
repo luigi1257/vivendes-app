@@ -6,7 +6,7 @@ import {
   seedHouses,
   seedSystems,
   seedContacts,
-  seedIncidents
+  seedIncidents,
 } from "../data/seedData";
 
 export function SeedPage() {
@@ -25,7 +25,7 @@ export function SeedPage() {
           name: house.name,
           address: house.address,
           coverImageUrl: house.coverImageUrl ?? "",
-          notes: house.notes ?? ""
+          notes: house.notes ?? "",
         });
       }
 
@@ -41,7 +41,7 @@ export function SeedPage() {
           location: system.location ?? "",
           instructions: system.instructions ?? "",
           contactName: system.contactName ?? "",
-          contactPhone: system.contactPhone ?? ""
+          contactPhone: system.contactPhone ?? "",
         });
       }
 
@@ -54,7 +54,7 @@ export function SeedPage() {
           emergencyPhone: contact.emergencyPhone ?? "",
           email: contact.email ?? "",
           notes: contact.notes ?? "",
-          houseIds: contact.houseIds
+          houseIds: contact.houseIds,
         });
       }
 
@@ -69,14 +69,16 @@ export function SeedPage() {
           description: incident.description,
           actionTaken: incident.actionTaken,
           contactName: incident.contactName,
-          date: incident.date
+          date: incident.date,
         });
       }
 
-      setStatus("Dades carregades correctament! 👍 Ara ja pots treure aquesta pàgina si vols.");
+      setStatus(
+        "Dades carregades correctament! 👍\nAra ja pots tancar aquesta pàgina."
+      );
     } catch (error: any) {
       console.error("Error fent seed:", error);
-      setStatus("Error fent seed: " + (error.message ?? String(error)));
+      setStatus("Error fent seed: " + (error?.message ?? String(error)));
     } finally {
       setRunning(false);
     }
@@ -84,29 +86,40 @@ export function SeedPage() {
 
   return (
     <div className="p-4 pt-6 space-y-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold">Seed Firestore</h1>
+      <h1 className="text-2xl font-bold mb-2">Seed Firestore</h1>
       <p className="text-sm text-gray-600">
-        Aquesta pàgina omple la base de dades de Firestore amb dades d&apos;exemple
-        per a vivendes, sistemes, contactes i incidències.
+        Aquesta pàgina omple la base de dades de Firestore amb dades
+        d&apos;exemple per a vivendes, sistemes, contactes i incidències.
       </p>
+
       <div className="bg-yellow-100 border border-yellow-300 rounded-xl p-3 text-xs text-yellow-900">
         <p className="font-semibold">⚠️ Ús recomanat:</p>
         <ul className="list-disc list-inside mt-1 space-y-1">
-          <li>Fes servir aquesta pàgina només en entorn de desenvolupament.</li>
-          <li>Comprova que les regles de Firestore permeten escriure.</li>
-          <li>Un cop carregades les dades, pots esborrar aquesta ruta/pàgina.</li>
+          <li>Només per a desenvolupament.</li>
+          <li>
+            Assegura&apos;t que les regles de Firestore permeten
+            <code className="mx-1">write</code>.
+          </li>
+          <li>
+            Un cop carregades les dades, pots eliminar aquesta ruta si vols.
+          </li>
         </ul>
       </div>
+
       <button
         onClick={handleSeed}
         disabled={running}
         className="w-full py-2 rounded-full bg-gray-900 text-white text-sm font-semibold disabled:opacity-50"
       >
-        {running ? "Carregant dades..." : "Omplir Firestore amb dades de prova"}
+        {running
+          ? "Carregant dades..."
+          : "Omplir Firestore amb dades de prova"}
       </button>
+
       {status && (
         <div className="text-sm text-gray-700 whitespace-pre-line">{status}</div>
       )}
     </div>
   );
 }
+

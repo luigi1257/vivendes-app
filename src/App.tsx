@@ -5,8 +5,7 @@ import { SystemsPage } from "./pages/SystemsPage";
 import { IncidentsPage } from "./pages/IncidentsPage";
 import { ContactsPage } from "./pages/ContactsPage";
 import { SystemDetailPage } from "./pages/SystemDetailPage";
-import { SeedPage } from "./pages/SeedPage"; // 👈 AIXÒ
-
+import { SeedPage } from "./pages/SeedPage";
 
 function App() {
   return (
@@ -18,16 +17,9 @@ function App() {
           <Route path="/sistemes/:systemId" element={<SystemDetailPage />} />
           <Route path="/incidencies" element={<IncidentsPage />} />
           <Route path="/contactes" element={<ContactsPage />} />
+          {/* Ruta de seed */}
+          <Route path="/seed" element={<SeedPage />} />
         </Routes>
-        <Routes>
-  <Route path="/" element={<HousesPage />} />
-  <Route path="/sistemes" element={<SystemsPage />} />
-  <Route path="/sistemes/:systemId" element={<SystemDetailPage />} />
-  <Route path="/incidencies" element={<IncidentsPage />} />
-  <Route path="/contactes" element={<ContactsPage />} />
-  <Route path="/seed" element={<SeedPage />} /> {/* 👈 RUTA SEED */}
-</Routes>
-
       </div>
       <BottomNav />
     </div>

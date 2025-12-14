@@ -43,7 +43,7 @@ export type IncidentSeed = {
   description: string;
   actionTaken: string;
   contactName: string;
-  date: string; // la guardarem com string tipus "2025-01-10"
+  date: string; // format "2025-01-10"
 };
 
 export const seedHouses: HouseSeed[] = [
@@ -200,4 +200,3 @@ export const seedIncidents: IncidentSeed[] = [
     date: "2025-01-20"
   }
 ];
-

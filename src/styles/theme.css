@@ -1,0 +1,128 @@
+/* src/styles/theme.css */
+
+/* Paleta molt suau en grisos i blanc */
+:root {
+  --app-bg: #f5f5f7;
+  --app-card-bg: #ffffff;
+  --app-card-border: #e5e7eb;
+  --app-card-radius: 18px;
+  --app-card-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+
+  --app-text-main: #111827;
+  --app-text-muted: #6b7280;
+  --app-text-subtle: #9ca3af;
+
+  --app-line-soft: #e5e7eb;
+
+  --app-pill-bg: #f3f4f6;
+  --app-pill-text: #374151;
+  --app-pill-border: #e5e7eb;
+}
+
+/* BASE GENERAL */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: var(--app-bg);
+  color: var(--app-text-main);
+}
+
+/* “Globus” / targetes principals (com els de Nou sistema) */
+.app-card {
+  background: var(--app-card-bg);
+  border-radius: var(--app-card-radius);
+  border: 1px solid var(--app-card-border);
+  box-shadow: var(--app-card-shadow);
+}
+
+/* Seccions dins d’una pàgina (capçalera + contingut) */
+.app-section {
+  background: var(--app-card-bg);
+  border-radius: 16px;
+  border: 1px solid var(--app-card-border);
+  padding: 1rem;
+}
+
+/* Títol petit de secció */
+.app-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--app-text-subtle);
+  margin-bottom: 0.35rem;
+}
+
+/* Pastilles neutres (estat, etiquetes…) */
+.app-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--app-pill-border);
+  background: var(--app-pill-bg);
+  color: var(--app-pill-text);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* Botó principal neutre, estil arrodonit */
+.app-button-primary {
+  border-radius: 999px;
+  background: #111827;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.55rem 1.2rem;
+}
+
+/* Botó secundari outline */
+.app-button-secondary {
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #374151;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.55rem 1.2rem;
+}
+
+/* Icones rodones sense color (per botons petits amb icona) */
+.app-icon-button {
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Inputs i textareas més fins i coherents */
+.app-input,
+.app-textarea,
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="date"],
+select,
+textarea {
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-size: 0.9rem;
+  padding: 0.45rem 0.75rem;
+}
+
+/* Suavitzar focus */
+.app-input:focus,
+.app-textarea:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #9ca3af;
+  box-shadow: 0 0 0 1px rgba(156, 163, 175, 0.35);
+}

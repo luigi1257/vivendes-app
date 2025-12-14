@@ -1,72 +1,213 @@
+/* src/index.css */
+
+/* 1) Tailwind (ja el tenies) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* 2) Design tokens globals */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --app-bg: #f3f4f6;            /* Fons general molt suau */
+  --app-surface: #ffffff;       /* Fons de targetes */
+  --app-border: #e5e7eb;        /* Contorn suau */
+  --app-border-strong: #d1d5db;
+  --app-radius-lg: 1.25rem;     /* Equival a rounded-2xl */
+  --app-radius-full: 9999px;    /* Pills / botons rodons */
+  --app-shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.06);
+  --app-shadow-subtle: 0 8px 20px rgba(15, 23, 42, 0.03);
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --app-text-main: #0f172a;     /* text principal (slate-900) */
+  --app-text-soft: #6b7280;     /* text secundari (slate-500/600) */
+  --app-text-muted: #9ca3af;    /* text molt suau */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --app-pill-bg: #f9fafb;
+  --app-pill-border: #e5e7eb;
+
+  --app-accent: #111827;        /* accent molt fosc (en lloc de colors vius) */
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/* 3) Base global */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
-a:hover {
-  color: #535bf2;
+
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  @apply text-sm;
+  background-color: var(--app-bg);
+  color: var(--app-text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "SF Pro Display", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* 4) Contenidor principal (moltes pàgines ja fan servir max-w-md mx-auto) */
+#root {
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* 5) Refinar utilitats que ja fas servir (només aspecte, no lògica) */
+
+/* Fons principal suau */
+.bg-slate-50 {
+  background-color: var(--app-bg) !important;
 }
 
+/* Targetes en blanc */
+.bg-white {
+  background-color: var(--app-surface) !important;
+}
+
+/* Bordes suaus */
+.border-slate-100 {
+  border-color: var(--app-border) !important;
+}
+.border-slate-200 {
+  border-color: var(--app-border-strong) !important;
+}
+
+/* Radi coherents (globus fins) */
+.rounded-2xl {
+  border-radius: var(--app-radius-lg) !important;
+}
+.rounded-full {
+  border-radius: var(--app-radius-full) !important;
+}
+
+/* Ombres molt discretes */
+.shadow-sm {
+  box-shadow: var(--app-shadow-subtle) !important;
+}
+.shadow-lg,
+.shadow-xl {
+  box-shadow: var(--app-shadow-soft) !important;
+}
+
+/* Textos */
+.text-slate-900 {
+  color: var(--app-text-main) !important;
+}
+.text-slate-700,
+.text-slate-600,
+.text-slate-500 {
+  color: var(--app-text-soft) !important;
+}
+.text-slate-400 {
+  color: var(--app-text-muted) !important;
+}
+
+/* Botons generals (manté les classes Tailwind però amb look més fi) */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--app-accent);
+  outline-offset: 2px;
+}
+
+/* Botons principals foscos (bg-slate-900) */
+.bg-slate-900 {
+  background-color: var(--app-accent) !important;
+}
+.bg-slate-900:hover {
+  filter: brightness(1.05);
+}
+
+/* 6) Targetes “generals” (ja encaixen amb el que tens a Vivendes / Sistemes) */
+
+.app-card {
+  background-color: var(--app-surface);
+  border-radius: var(--app-radius-lg);
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow-subtle);
+  padding: 0.9rem 1rem;
+}
+
+.app-card:hover {
+  box-shadow: var(--app-shadow-soft);
+  transform: translateY(-1px);
+  transition:
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+/* Pills (per a etiquetes, estats, codis…) */
+.app-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--app-radius-full);
+  border: 1px solid var(--app-pill-border);
+  background-color: var(--app-pill-bg);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* 7) Imatges perquè totes es vegin “netes” i coherents */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Miniatures (cases, pàrquings, vehicles…) – ja les estàs fent servir amb object-cover */
+.app-thumb {
+  border-radius: calc(var(--app-radius-lg) - 4px);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+/* 8) Barra inferior (BottomNav) una mica més “flotant” i minimal */
+nav.fixed.bottom-0 {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+nav.fixed.bottom-0 .bg-white\/95 {
+  backdrop-filter: blur(18px);
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.18);
+}
+
+/* 9) Títols petits de secció (els que veus a “Sistema elèctric”, etc.) */
+.app-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--app-text-soft);
+}
+
+/* 10) Ajustos petits de formularis perquè tot tingui el mateix “to” */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="date"],
+textarea,
+select {
+  border-radius: 0.9rem;
+  border-color: var(--app-border);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--app-text-muted);
+}
+
+/* Evitar scroll “brut” al body, ja que tu ja treballes amb max-w-md mx-auto */
+body {
+  overscroll-behavior-y: none;
 }
